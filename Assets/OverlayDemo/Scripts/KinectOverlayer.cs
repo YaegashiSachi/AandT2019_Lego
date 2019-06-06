@@ -43,22 +43,28 @@ public class KinectOverlayer : MonoBehaviour
 			
 			int iJointIndex = (int)TrackedJoint;
 			
+            //Kinectで誰かひとりよみこめたらtrue
 			if(manager.IsUserDetected())
 			{
 				uint userId = manager.GetPlayer1ID();
 				
+                // ID1の人の右手が追跡されていたらtrue
 				if(manager.IsJointTracked(userId, iJointIndex))
 				{
 					Vector3 posJoint = manager.GetRawSkeletonJointPos(userId, iJointIndex);
 
+                    // posJointの位置が(0,0,0)だったらtrue
 					if(posJoint != Vector3.zero)
 					{
-						// 3d position to depth
-						Vector2 posDepth = manager.GetDepthMapPosForJointPos(posJoint);
+                        // 3d position to depth
+                        // 深さへの3D位置
+                        Vector2 posDepth = manager.GetDepthMapPosForJointPos(posJoint);
+
+                        // depth pos to color pos
+                        // 色位置への深さ位置
+                        Vector2 posColor = manager.GetColorMapPosForDepthPos(posDepth);
 						
-						// depth pos to color pos
-						Vector2 posColor = manager.GetColorMapPosForDepthPos(posDepth);
-						
+                        // 色位置への深さ位置のx/Kinectのワイド
 						float scaleX = (float)posColor.x / KinectWrapper.Constants.ColorImageWidth;
 						float scaleY = 1.0f - (float)posColor.y / KinectWrapper.Constants.ColorImageHeight;
 						
@@ -73,7 +79,10 @@ public class KinectOverlayer : MonoBehaviour
 						
 						if(OverlayObject)
 						{
+
 							Vector3 vPosOverlay = Camera.main.ViewportToWorldPoint(new Vector3(scaleX, scaleY, distanceToCamera));
+
+                            // オブジェクトの場所＝ベクトル二点間の補間(ゲームオブジェクトにアタッチされているTransform,ひとつ前の行で求めた位置,5f*最後のフレームを完了するのに要した時間)
 							OverlayObject.transform.position = Vector3.Lerp(OverlayObject.transform.position, vPosOverlay, smoothFactor * Time.deltaTime);
 						}
 					}

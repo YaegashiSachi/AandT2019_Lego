@@ -188,7 +188,8 @@ public class KinectManager : MonoBehaviour
 
 
   // returns the single KinectManager instance
-  public static KinectManager Instance
+  //単一のKinectManagerインスタンスを返します
+    public static KinectManager Instance
   {
     get
     {
@@ -202,8 +203,9 @@ public class KinectManager : MonoBehaviour
     return instance != null ? instance.KinectInitialized : false;
   }
 
-  // checks if Kinect is initialized and ready to use. If not, there was an error during Kinect-sensor initialization
-  public bool IsInitialized()
+    // checks if Kinect is initialized and ready to use. If not, there was an error during Kinect-sensor initialization
+    //Kinectが初期化されていて使用可能かどうかを確認します。そうでない場合、Kinectセンサーの初期化中にエラーが発生しました
+    public bool IsInitialized()
   {
     return KinectInitialized;
   }
@@ -231,8 +233,9 @@ public class KinectManager : MonoBehaviour
       return 0;
   }
 
-  // returns the depth map position for a 3d joint position
-  public Vector2 GetDepthMapPosForJointPos(Vector3 posJoint)
+    // returns the depth map position for a 3d joint position
+    //3Dジョイント位置のデプスマップ位置を返します
+    public Vector2 GetDepthMapPosForJointPos(Vector3 posJoint)
   {
     Vector3 vDepthPos = KinectWrapper.MapSkeletonPointToDepthPoint(posJoint);
     Vector2 vMapPos = new Vector2(vDepthPos.x, vDepthPos.y);
@@ -240,8 +243,9 @@ public class KinectManager : MonoBehaviour
     return vMapPos;
   }
 
-  // returns the color map position for a depth 2d position
-  public Vector2 GetColorMapPosForDepthPos(Vector2 posDepth)
+    // returns the color map position for a depth 2d position
+    // 深さ2dの位置のカラーマップ位置を返す
+    public Vector2 GetColorMapPosForDepthPos(Vector2 posDepth)
   {
     int cx, cy;
 
@@ -274,14 +278,16 @@ public class KinectManager : MonoBehaviour
     return usersClrTex;
   }
 
-  // returns true if at least one user is currently detected by the sensor
-  public bool IsUserDetected()
+    // returns true if at least one user is currently detected by the sensor
+    //少なくとも1人のユーザーが現在センサーによって検出されている場合はtrueを返します
+    public bool IsUserDetected()
   {
     return KinectInitialized && (allUsers.Count > 0);
   }
 
-  // returns the UserID of Player1, or 0 if no Player1 is detected
-  public uint GetPlayer1ID()
+    // returns the UserID of Player1, or 0 if no Player1 is detected
+    //Player1のUserIDを返します。Player1が検出されない場合は0を返します。
+    public uint GetPlayer1ID()
   {
     return Player1ID;
   }
@@ -315,7 +321,8 @@ public class KinectManager : MonoBehaviour
     return false;
   }
 
-  // returns the raw unmodified joint position, as returned by the Kinect sensor
+    // returns the raw unmodified joint position, as returned by the Kinect sensor
+    // Kinectセンサーから返される、そのままの未修正の関節位置を返します
   public Vector3 GetRawSkeletonJointPos(uint UserId, int joint)
   {
     if (UserId == Player1ID)
@@ -348,8 +355,9 @@ public class KinectManager : MonoBehaviour
     return Quaternion.identity;
   }
 
-  // returns true if the given joint of the specified user is being tracked
-  public bool IsJointTracked(uint UserId, int joint)
+    // returns true if the given joint of the specified user is being tracked
+    //指定されたユーザーの指定された関節が追跡されている場合はtrueを返します
+    public bool IsJointTracked(uint UserId, int joint)
   {
     if (UserId == Player1ID)
       return joint >= 0 && joint < player1JointsTracked.Length ? player1JointsTracked[joint] : false;

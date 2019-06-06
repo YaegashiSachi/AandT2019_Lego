@@ -12,10 +12,12 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using System.IO;
-using System.Text; 
+using System.Text;
 
 // Wrapper class that holds the various structs and dll imports
 // needed to set up a model with the Kinect.
+// Kinectを使ってモデルを設定するために必要な,さまざまな構造体とdllインポートを保持するラッパークラス。
+// Kinectを使ってモデルを設定するために必要ないろんな機能が入ってて、使いやすくしてくれてるクラス
 public class KinectWrapper
 {
 	public static class Constants
